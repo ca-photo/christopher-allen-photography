@@ -7,10 +7,10 @@ import HyperLink from '../../components/HyperLink';
 import { getContactPageContent } from '../../data/contentful';
 
 export default function Contact() {
-  const { data, isLoading, isError } = useQuery(
-    ['contactPage'],
-    getContactPageContent,
-  );
+  const { data, isPending, isError } = useQuery({
+    queryKey: ['contactPage'],
+    queryFn: getContactPageContent,
+  });
 
   const renderOptions = {
     renderNode: {
@@ -23,19 +23,23 @@ export default function Contact() {
   return (
     <>
       <div className="text-neutral-400 space-y-4 max-w-2xl mx-auto">
-        {!isLoading &&
+        {!isPending &&
           !isError &&
           documentToReactComponents(data.textBlock, renderOptions)}
       </div>
-      {!isLoading && !isError && (
+      {!isPending && !isError && (
         <div className="text-center mt-12">
           <Image
             priority={true}
-            alt={data.image.fields.description}
+            alt={
+              data.image.fields.description ||
+              data.image.fields.title ||
+              'Photograph by Christopher Allen'
+            }
             src={`https:${data.image.fields.file.url}`}
             width={data.image.fields.file.details.image?.width}
             height={data.image.fields.file.details.image?.height}
-            className="border-neutral-400 border-[1px] border-solid"
+            className="inline-block max-w-full h-auto border-neutral-400 border-[1px] border-solid"
           />
         </div>
       )}

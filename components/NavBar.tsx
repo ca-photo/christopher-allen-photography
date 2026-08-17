@@ -82,40 +82,40 @@ export const NavBar = ({
           </svg>
         </button>
         <div className={dropdownContainerClasses}>
-          <Link href="/">
-            <a
-              className={`${dropdownItemClasses} ${getActiveLinkClasses(
-                '/',
-                currentGallery,
-              )}`}
-              onClick={() => toggleDropdown(setDropdownOpen)}
-            >
-              All Galleries
-            </a>
+          <Link
+            href="/"
+            className={`${dropdownItemClasses} ${getActiveLinkClasses(
+              '/',
+              currentGallery,
+            )}`}
+            onClick={() => toggleDropdown(setDropdownOpen)}
+          >
+            All Galleries
           </Link>
           {navData?.map((navItem) => {
             const slug = convertTitleToSlug(navItem.title);
             return (
-              <Link key={navItem.contentfulId} href={`/galleries/${slug}`}>
-                <a
-                  className={`${dropdownItemClasses} ${getActiveLinkClasses(
-                    slug,
-                    currentGallery,
-                  )}`}
-                  onClick={() => toggleDropdown(setDropdownOpen)}
-                >
-                  {navItem.title}
-                </a>
+              <Link
+                key={navItem.contentfulId}
+                href={`/galleries/${slug}`}
+                className={`${dropdownItemClasses} ${getActiveLinkClasses(
+                  slug,
+                  currentGallery,
+                )}`}
+                onClick={() => toggleDropdown(setDropdownOpen)}
+              >
+                {navItem.title}
               </Link>
             );
           })}
         </div>
       </div>
       <p className="text-neutral-400">|</p>
-      <Link href="/contact">
-        <a className={getActiveLinkClasses('/contact', currentGallery)}>
-          Contact
-        </a>
+      <Link
+        href="/contact"
+        className={getActiveLinkClasses('/contact', currentGallery)}
+      >
+        Contact
       </Link>
     </nav>
   );

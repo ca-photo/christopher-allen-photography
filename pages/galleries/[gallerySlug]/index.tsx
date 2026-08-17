@@ -13,9 +13,9 @@ export default function Gallery() {
   const router = useRouter();
   const { gallerySlug } = router.query;
 
-  const { isLoading, isError, data } = useGalleryQuery(gallerySlug);
+  const { isPending, isError, data } = useGalleryQuery(gallerySlug);
 
-  if (isLoading) return <Loading />;
+  if (isPending) return <Loading />;
   if (isError)
     return (
       <Error message="Sorry, the images could not be found. Please try again." />
@@ -35,19 +35,21 @@ export default function Gallery() {
                   entry.fields.title,
                   entry.fields.visual.fields.title,
                 )}`}
+                className="focus:opacity-50 focus:transition"
               >
-                <a className="focus:opacity-50 focus:transition">
-                  <Image
-                    alt={entry.fields.description}
-                    src={`https:${entry.fields.visual.fields.file.url}?fm=jpg&fl=progressive`}
-                    placeholder="blur"
-                    blurDataURL={BLUR_DATA_URL}
-                    layout="fill"
-                    objectFit="contain"
-                    objectPosition={'center'}
-                    className="hover:opacity-50 hover:transition"
-                  />
-                </a>
+                <Image
+                  alt={
+                    entry.fields.description ||
+                    entry.fields.title ||
+                    'Photograph by Christopher Allen'
+                  }
+                  src={`https:${entry.fields.visual.fields.file.url}?fm=jpg&fl=progressive`}
+                  placeholder="blur"
+                  blurDataURL={BLUR_DATA_URL}
+                  fill
+                  style={{ objectFit: 'contain', objectPosition: 'center' }}
+                  className="hover:opacity-50 hover:transition"
+                />
               </Link>
               <h3 className="pointer-events-none text-md absolute top-1/3 left-5">
                 {entry.fields.title}
